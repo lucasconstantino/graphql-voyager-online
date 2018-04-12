@@ -3,9 +3,9 @@ import fetch from 'isomorphic-fetch'
 import { isUri } from 'valid-url'
 import { Voyager } from 'graphql-voyager'
 import styled, { injectGlobal } from 'styled-components'
-import { State } from 'react-powerplug'
+import queryState from 'query-state'
 
-const introspect = endpoint => async query => fetch(endpoint, {
+const introspect = ({ endpoint, reset }) => async query => fetch(endpoint, {
   method: 'post',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
@@ -13,7 +13,11 @@ const introspect = endpoint => async query => fetch(endpoint, {
     query,
   }),
 })
-.catch(() => window.alert('Introspection query failed. Check you network console.'))
+.catch(err => {
+  window.alert('Introspection query failed. Check you network console.')
+  reset()
+  throw err
+})
 .then(res => res.json())
 .then(res => {
   window.alert('Finished introspection! It my take a while to process your schema.')
@@ -50,22 +54,39 @@ const StyledButton = styled.button`
   font-size: 1.25rem;
 `
 
-const App = () => (
-  <State initial={ { endpoint: '' } }>
-    {({ state, setState }) => (
+export default class App extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.qs = queryState({ endpoint: '' })
+    this.state = this.qs.get()
+  }
+
+  componentDidMount () {
+    this.qs.onChange(this.setState)
+  }
+
+  reset = () => this.qs.dispose()
+  setEndpoint = endpoint => {
+    this.qs.set({ endpoint })
+    this.setState({ endpoint })
+  }
+
+  render () {
+    const { endpoint } = this.state
+
+    return (
       <StyledContainer>
         <EndpointBar>
-          <StyledButton onClick={ () => setState({ endpoint: promptEndpoint(state.endpoint) }) }>Define endpoint</StyledButton>
-          <b>{ state.endpoint }</b>
+          <StyledButton onClick={ () => this.setEndpoint(promptEndpoint(endpoint)) }>Define endpoint</StyledButton>
+          <b>{ endpoint }</b>
         </EndpointBar>
 
-        { state.endpoint && <Voyager introspection={ introspect(state.endpoint) } /> }
+        { endpoint && <Voyager introspection={ introspect({ endpoint, reset: this.reset }) } /> }
       </StyledContainer>
-    )}
-  </State>
-)
-
-export default App
+    )
+  }
+}
 
 injectGlobal`
   @import url(//cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css);

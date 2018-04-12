@@ -8,9 +8,9 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -Rf ./dist",
-    "build": "webpack",
+    "build": "yarn clean && webpack",
     "dev": "webpack-dev-server",
-    "deploy": "gh-pages -d dist"
+    "deploy": "yarn build && gh-pages -d dist"
   },
   "dependencies": {
     "css-loader": "^0.28.0",
@@ -19,6 +19,7 @@
     "graphql-voyager": "^1.0.0-rc.15",
     "html-webpack-plugin": "^2.28.0",
     "isomorphic-fetch": "^2.2.1",
+    "query-state": "^4.1.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-powerplug": "^0.1.5",
