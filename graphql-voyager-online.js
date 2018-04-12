@@ -20674,10 +20674,7 @@ var introspect = function introspect(_ref) {
               return _context.abrupt('return', (0, _isomorphicFetch2['default'])(endpoint, {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
-                body: (0, _stringify2['default'])({
-                  operationName: 'InstrospectionQuery',
-                  query: query
-                })
+                body: (0, _stringify2['default'])({ query: query })
               })['catch'](function (err) {
                 window.alert('Introspection query failed. Check you network console.');
                 reset();
