@@ -8,10 +8,7 @@ import queryState from 'query-state'
 const introspect = ({ endpoint, reset }) => async query => fetch(endpoint, {
   method: 'post',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    operationName: 'InstrospectionQuery',
-    query,
-  }),
+  body: JSON.stringify({ query }),
 })
 .catch(err => {
   window.alert('Introspection query failed. Check you network console.')
