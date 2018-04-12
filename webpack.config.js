@@ -7,8 +7,7 @@ module.exports = {
   entry: [path.resolve('./src/index.js')],
   output: {
     path: path.resolve('./dist'),
-    publicPath: '/',
-    filename: 'graphiql-online.js'
+    filename: 'graphql-voyager-online.js'
   },
   module: {
     rules: [
@@ -17,7 +16,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'GraphiQL Online',
+      title: 'GraphQL Voyager Online',
       favicon: path.resolve('./src/favicon.ico')
     }),
     new CopyWebpackPlugin([ { from: 'src/voyager.worker.js', to: 'voyager.worker.js' } ]),
