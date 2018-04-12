@@ -1,5 +1,3 @@
-# GraphiQL Online
+# GraphQL Voyager Online
 
-[Online available](https://lucasconstantino.github.io/graphiql-online/) instance of [GraphiQL](https://github.com/graphql/graphiql/) for anyone to use.
-
-> Based on the [ChromeiQL](https://github.com/ermanc/ChromeiQL) Google Chrome extension.
+[Online available](https://lucasconstantino.github.io/graphql-voyager-online/) instance of [GraphQL Voyager](https://github.com/APIs-guru/graphql-voyager/) for anyone to use, based on configurable endpoint.
